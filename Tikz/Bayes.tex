@@ -1,0 +1,24 @@
+
+\begin{forest}
+  probability tree
+  [{$\Omega$ \\ $P(\Omega)$}, plain content
+  [{P(A_{1})}, my label=A_{1}
+      [{P(A_{1})P(B|A_{1})}, my label=B:P(B|A_{1})
+      ]
+      [{P(A_{1})P(\setcmp{B}|A_{1})},my label=\setcmp{B}:P(\setcmp{B}|A_{1})
+      ]
+    ]
+  [{P(A_{2})}, my label=A_{2}
+      [{P(A_{2})P(B|A_{2})}, my label=B:P(B|A_{2})
+      ]
+      [{P(A_{2})P(\setcmp{B}|A_{2})},my label=\setcmp{B}:P(\setcmp{B}|A_{2})
+      ]
+    ]
+  [{P(A_{3})}, my label=A_{3}
+      [{P(A_{3})P(B|A_{3})}, my label=B:P(B|A_{3})
+      ]
+      [{P(A_{3})P(\setcmp{B}|A_{3})},my label=\setcmp{B}:P(\setcmp{B} |A_{3})
+      ]
+    ]
+  ]
+\end{forest}

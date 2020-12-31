@@ -1,0 +1,126 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   PgfPlots
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween,
+                }
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Tikz
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{calc,
+                trees,
+                positioning,
+                arrows,
+                chains,
+                shapes.geometric,
+                decorations.pathreplacing,
+                decorations.pathmorphing,
+                shapes,
+                matrix,shapes.symbols}
+    
+    
+ \usetikzlibrary{arrows.meta}
+\usepackage{forest}   
+    
+%% Classification of tiks marks
+\def\showmarkEXPFour{\tikz[baseline=-0.55ex]\node[black,mark size=0.5ex]{\pgfuseplotmark{square*}};\hspace{0.75pt}}
+\def\showmarkEXPFive{\tikz[baseline=-0.55ex]\node[black,mark size=0.5ex]{\pgfuseplotmark{square}};\hspace{0.75pt}}
+\def\showmarkEXPSeven{\tikz[baseline=-0.55ex]\node[blue,mark size=0.5ex]{\pgfuseplotmark{square}};\hspace{0.75pt}}
+\def\showmarkEXPTen{\tikz[baseline=-0.55ex]\node[blue,mark size=0.5ex]{\pgfuseplotmark{halfdiamond*}};\hspace{0.75pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Tikz
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\usepackage{textcomp}
+
+\usetikzlibrary{positioning,fit,shapes,calc,arrows,arrows.meta,fadings,through}
+
+
+
+\definecolor{excel}{RGB}{50,147,104}
+\definecolor{txt}{RGB}{0,104,232}
+
+\definecolor{left}{RGB}{237,237,235}
+\definecolor{right}{RGB}{245,245,244}
+\definecolor{win}{RGB}{245,245,244}
+
+\tikzset{%
+        >={Latex[width=2mm,length=2mm]},
+             % Specifications for style of nodes:
+            base/.style = {rectangle, rounded corners, draw=white,
+                                                minimum width=4cm, minimum height=1cm,
+                                                text centered, font=\sffamily},
+            input_txt/.style = {rectangle, rounded corners, draw=white,
+                                                minimum width=2cm, minimum height=1cm,
+                                                text centered, font=\sffamily},
+            input_excel/.style = {rectangle, rounded corners, draw=white,
+                                                minimum width=2cm, minimum height=1cm,
+                                                text centered, font=\sffamily,},
+            activityStarts/.style = {base, fill=blue!30},
+            excel/.style = {input_excel, fill=excel!30},
+            txt/.style = {input_txt, fill=txt!30},
+            xml/.style = {input_txt, fill=txt!30},
+            startstop/.style = {base, fill=red!30},
+            activityRuns/.style = {base, fill=green!30},
+            process/.style = {base, minimum width=2.5cm, fill=orange!15},
+            sampling/.style = {base, minimum width=2.5cm, fill=green!15},
+            null/.style = {base, minimum width=2.5cm, draw=black},
+            block/.style = {rectangle, draw, fill=blue!20, 
+                                               text width=15em, text centered, rounded corners, minimum height=4em},
+            struct/.style = {rectangle, draw,
+                                               text width=5.5em, align=left, rounded corners},
+            substruct/.style = {rectangle,% draw,
+                                               text width=6em,align=left, rounded corners},
+            mfunc/.style = {rectangle, %draw,
+                                                fill=blue!20, text centered, rounded corners, minimum height=4em},
+            specs/.style = {rectangle, %draw, 
+                            align=left, rounded corners},
+            line/.style = {draw, -latex'}
+           }
+
+
+
+
+\forestset{%
+  declare toks={my label}{},
+  probability tree/.style={%
+    for tree={%
+      math content,
+      grow'=0,
+      child anchor=parent,
+      l sep+=40pt,
+      +edge={every node/.append style={sloped, midway}},
+      delay={%
+        split option={my label}{:}{above edge, below edge},
+      }
+    },
+    where n children=0{%
+      +edge={-{Circle[width=3pt,length=3pt]}},
+      if n=1{
+        !u.s sep+=30pt,
+      }{}
+    }{%
+      text width=50pt,
+      text centered,
+      if={isodd(n_children)}{%
+        for n/.wrap pgfmath arg={{##1}{calign with current edge}}{int(.5*(n_children()+1))}
+      }{},
+    },
+    above edge/.style={%
+      +edge label={node [above] {$##1$}},
+    },
+    below edge/.style={%
+      +edge label={node [below] {$##1$}},
+    },
+  },
+}

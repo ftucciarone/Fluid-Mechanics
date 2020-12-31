@@ -1,0 +1,63 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Flow diagram options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetikzlibrary{positioning,fit,shapes,calc,arrows,arrows.meta,fadings,through}
+\tikzset{%
+        >={Latex[width=2mm,length=2mm]},
+        % Specifications for style of nodes:
+        AlgBase/.style = { rectangle, rounded corners, draw=black,
+                        minimum width=2cm, minimum height=2cm,
+                        text centered, font=\ssfamily,
+                        text width=12em},
+        phantom/.style = {base, draw=white},
+        AlgForm/.style = { rectangle, rounded corners, draw = none,
+                        minimum width=1cm, minimum height=1cm,
+                        text centered, font=\Large\ssfamily},
+            block/.style={
+        draw, 
+        rounded corners,
+        text width=12em,
+        text centered,
+        minimum height=20ex,
+        fill=cyan!70!white
+    },
+        }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Forest options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\forestset{%
+  declare toks={my label}{},
+  probability tree/.style={%
+    for tree={%
+      math content,
+      grow'=0,
+      child anchor=parent,
+      l sep+=40pt,
+      +edge={every node/.append style={sloped, midway}},
+      delay={%
+        split option={my label}{:}{above edge, below edge},
+      }
+    },
+    where n children=0{%
+      +edge={-{Circle[width=3pt,length=3pt]}},
+      if n=1{
+        !u.s sep+=30pt,
+      }{}
+    }{%
+      text width=50pt,
+      text centered,
+      if={isodd(n_children)}{%
+        for n/.wrap pgfmath arg={{##1}{calign with current edge}}{int(.5*(n_children()+1))}
+      }{},
+    },
+    above edge/.style={%
+      +edge label={node [above] {$##1$}},
+    },
+    below edge/.style={%
+      +edge label={node [below] {$##1$}},
+    },
+  },
+}

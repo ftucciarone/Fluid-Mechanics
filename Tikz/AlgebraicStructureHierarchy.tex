@@ -1,0 +1,67 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[node distance=5cm,
+                    every node/.style={fill=none, font=\sffamily}]
+% Specification of nodes (position, etc.)
+% This is standard to declare the nodes
+%   \node (TAG)   [style, position]           {filling};
+    % Boxes  
+    \node (SigmaAlgebra) [AlgBase]                                            {{\textbf{\Large{$\bs\sigma-$algebra}} \footnotesize{
+        \begin{itemize}
+            \item $\Omega\in\mathscr{A}$;
+            \item $A\in\mathscr{A} \Rightarrow \setcmp{A}\in\mathscr{A}$;
+            \item $\rbkt{A_{n}}_{n\in\N}$ sequence of sets such that $A_{i}\in\mathscr{A} \, \forall i$, then \\ $\bigcup_{n=1}^{\infty}A_{n}\in\mathscr{A}$. 
+        \end{itemize}}}};
+    \node (Algebra)      [AlgBase, below of = SigmaAlgebra, xshift = -4.75cm]    {{\textbf{\Large{Algebra}} \footnotesize{
+        \begin{itemize}
+            \item $\varnothing,\Omega\in\mathcal{A}$;
+            \item $A\in\mathcal{A} \Rightarrow \setcmp{A}\in\mathcal{A}$;
+            \item $\rbkt{A_{1},A_{2},...,A_{N}}$ is a sequence of sets such that $A_{i}\in\mathcal{A} \, \forall i$ \\ then $\bigcup_{n=1}^{N}A_{n}\in\mathcal{A}$. 
+        \end{itemize}}}};
+    \node (SigmaRing)    [AlgBase, below of = SigmaAlgebra]                   {{\textbf{\Large{$\bs\sigma-$ring}} \footnotesize{
+        \begin{itemize}
+            \item $\varnothing\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A}$ with $A\subset B$, then $A\setminus B\in\mathcal{A}$;
+           \item $\rbkt{A_{n}}_{n\in\N}$ sequence of sets such that $A_{i}\in\mathcal{A} \, \forall i$, then  $\bigcup_{n=1}^{\infty}A_{n}\in\mathcal{A}$.
+        \end{itemize}}}};
+    \node (LambdaSystem) [AlgBase, below of = SigmaAlgebra, xshift =  4.75cm]    {{\textbf{\Large{$\bs\lambda-$system}} \footnotesize{
+        \begin{itemize}
+            \item $\Omega\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A}$ with $A\subset B$, then $A\setminus B\in\mathcal{A}$;
+            \item $ \forall A_{1},A_{2},...\in\mathcal{A}$ pairwise disjoint, $\bigcup_{n=1}^{\infty}A_{n}\in\mathcal{A}$.
+        \end{itemize}}}};
+    \node (Ring)         [AlgBase, below of = Algebra, xshift =  2cm]         {{\textbf{\Large{Ring}} \footnotesize{
+        \begin{itemize}
+            \item $\varnothing\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A} \Rightarrow A\setminus B\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A} \Rightarrow A\cup B\in\mathcal{A}$.
+        \end{itemize}}}};
+    \node (Semiring)     [AlgBase, below of = Ring]                           {{\textbf{\Large{Semiring}} \footnotesize{
+        \begin{itemize}
+            \item $\varnothing\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A} \Rightarrow A\cap B\in\mathcal{A}$;
+            \item $\forall A,B\in\mathcal{A}$, $A\setminus B$ is a finite union of mutually disjoint sets.
+        \end{itemize}}}};
+
+    % Formulas
+    \node (SigmaCupStab1) [AlgForm,above of = Algebra, yshift = -2.5cm, xshift = 0cm]    {$\sigma-\cup-$stable};
+    \node (OmegaInA1)     [AlgForm,above of = SigmaRing, yshift =  -2.5cm, xshift = 0.85cm]  {$\Omega\in\mathcal{A}$};
+    \node (capStab)       [AlgForm,above of = LambdaSystem, yshift = -2.5cm, xshift = -0.75cm]{$\cap-$stable};
+    \node (OmegaInA2)     [AlgForm,below of = Algebra, yshift =  2cm, xshift = 0.25cm]  {$\Omega\in\mathcal{A}$};
+    \node (SigmaCupStab1) [AlgForm,below of = SigmaRing, yshift =  2cm, xshift = 0.0cm] {$\sigma-\cup-$stable};
+    \node (cupStab)       [AlgForm,below of = Ring, yshift =  2cm, xshift = 1.1cm]      {$\cup-$stable};
+
+  % Specification of Connections 
+    \draw[->]([xshift=-0.0cm]Algebra.north)--([yshift=-0.0cm]SigmaAlgebra.south); 
+    \draw[->]([xshift=-0.0cm]SigmaRing.north)--([yshift=-0.0cm]SigmaAlgebra.south); 
+    \draw[->]([xshift=-0.0cm]LambdaSystem.north)--([yshift=-0.0cm]SigmaAlgebra.south); 
+    
+    \draw[->]([xshift=-0.0cm]Ring.north)--([yshift=-0.0cm]Algebra.south); 
+    \draw[->]([xshift=-0.0cm]Ring.north)--([yshift=-0.0cm]SigmaRing.south); 
+    
+    \draw[->]([xshift=-0.0cm]Semiring.north)--([yshift=-0.0cm]Ring.south); 
+
+\end{tikzpicture}
+    \caption{Hierarchy of algebraic structures of interest. On top, the $\sigma-$algebra represents the structure that has the most fulfilling properties. A $\sigma-$algebra is of course an Algebra, a $\sigma-$ring and a $\lambda-$system, meaning that each structure represented here can be built from the underlying structures by adding some properties.}
+    \label{fig:hierarchy}
+\end{figure}

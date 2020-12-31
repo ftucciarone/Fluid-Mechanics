@@ -1,0 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{babel,csquotes,xpatch}%   recommended 
+\usepackage[backend=biber]{biblatex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Bibliography entries
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{./Biblio/Biblio.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Custom Quotes (so you can rebuild them if
+%         you change package)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\inlinecite[1]{%           Author et al. (year) 
+  \citeauthor{#1}~(\citeyear{#1})}
+  
+\newcommand\StartRef[1]{%             Author et al. (year),[entry number]
+    \citeauthor{#1}~(\citeyear{#1}),\cite{#1}\\}  
