@@ -1,0 +1,226 @@
+\section{Conservation laws in fluid mechanics}
+The equations in fluid mechanics can be expressed as conservation laws, a more general framework useful in developing the guidelines to analyse fluid motion as much as to develop numerical schemes, finite volumes for instance. Conservation laws can be expressed in two equivalent ways, as local statements valid in each point $\bs{x}$ of the fluid domain at each time $t$, or as integral relations valid for well specified volumes of fluid.
+\subsection{General conservation statement}
+Let's consider a quantity $Q$ defined over a volume $V\rbkt{t}$, defined as the integral of a density $q$ function of time and space, $q\rbkt{\bs{x},t}$, that is the amount of $Q$ per unitary volume. In formulas
+\begin{equation}
+    Q =  \int_{V\rbkt{t}}q\rbkt{\bs{x},t}\,d\bs{x}.
+\end{equation}
+Intuitively, if $Q$ varies in the volume there must be a source for $Q$ if the variation implies an increase of $Q$, or a sink if there is a decay mechanism. Another mechanism of variation for $Q$ can be the transfer of quantity through the boundaries of $V$. The balance between these mechanisms provides
+\begin{equation}
+    \dfrac{DQ}{Dt} = \int_{V\rbkt{t}} \rbkt{\text{sources/sinks}}\,d\bs{x} - \int_{S\rbkt{t}} j\rbkt{\bs{x},t,\bs{n}} \,d\varsigma,
+\end{equation}
+where $j\rbkt{\bs{x},t,\bs{n}}$ is the flux across the surface $S\rbkt{t}$ that bounds $V\rbkt{t}$. The surface flux $j\rbkt{\bs{x},t,\bs{n}}$ is of the form
+\begin{equation*}
+    j\rbkt{\bs{x},t,\bs{n}} = \bs{J}\rbkt{\bs{x},t}\cdot\bs{n}
+\end{equation*}
+with $\bs{n}$ the surface normal vector, positive when pointing outward. Thanks to the divergence theorem
+\begin{equation}\label{eq:balance}
+    \dfrac{DQ}{Dt} = \int_{V\rbkt{t}} \rbkt{\text{sources/sinks}}\,d\bs{x} - \int_{V\rbkt{t}} \nabla\cdot \bs{J}\rbkt{\bs{x},t} \,d\bs{x}.
+\end{equation}
+The flux $\bs{J}\rbkt{\bs{x},t}$ may be due to two major contribuents:
+\begin{itemize}
+    \item Advection, if the flux is due to the movement of the medium itself;
+    \item Diffusion, if the flux is due to random dispersion of molecular origin.
+\end{itemize}
+The evolution of $Q$ in time can be written, thanks to the Reynolds transport theorem, as:
+\begin{subequations}\label{eq:variation_of_integral}
+    \begin{align}
+        \dfrac{DQ}{Dt} = \dfrac{D}{Dt}\int_{V\rbkt{t}}q\rbkt{\bs{x},t}\,d\bs{x} 
+        &\leftstackrel{\text{RTT}}{=} \int_{V\rbkt{t}} \partial_{t}q\rbkt{\bs{x},t}\,d\bs{x} + \int_{S\rbkt{t}} q\rbkt{\bs{x},t}\bs{v}\cdot\bs{n} \,d\varsigma\\
+        & = \int_{V\rbkt{t}} \partial_{t}q\rbkt{\bs{x},t}\,d\bs{x} + \int_{V\rbkt{t}} \nabla\cdot\sbkt{q\rbkt{\bs{x},t}\bs{v}}\,d\bs{x}\\
+        & = \int_{V\rbkt{t}} \dfrac{D}{Dt}q\rbkt{\bs{x},t}\,d\bs{x} + \int_{V\rbkt{t}} q\rbkt{\bs{x},t}\nabla\cdot\bs{v}\,d\bs{x},
+    \end{align}
+\end{subequations}
+where $\bs{v}\rbkt{\bs{x},t}$ is the velocity of the boundary of $V\rbkt{t}$, if it is not possible to consider the volume as fixed. It's important to say that the three forms of $\eqref{eq:variation_of_integral}$ are equivalent in their meaning, they are just three differently convenient ways of expressing the Reynolds transport theorem. Combining equation $\eqref{eq:balance}$ and $\eqref{eq:variation_of_integral}$ one finds
+\begin{equation}\label{eq:integral_conservation_statement}
+    \int_{V\rbkt{t}} \partial_{t}q\rbkt{\bs{x},t}\,d\bs{x} + \int_{S\rbkt{t}} q\rbkt{\bs{x},t}\bs{v}\cdot\bs{n} \,d\varsigma =\int_{V\rbkt{t}} \rbkt{\text{sources/sinks}}\,d\bs{x} - \int_{V\rbkt{t}} \nabla\cdot \bs{J}\rbkt{\bs{x},t} \,d\bs{x},
+\end{equation}
+that is the \emph{integral form} of the general conservation statement. The local form can be obtained easily transforming everything into a volume integral and using the localization theorem, leading to
+\begin{equation}
+    \dfrac{\partial}{\partial t}q\rbkt{\bs{x},t} + \dfrac{\partial}{\partial x_{j}}\sbkt{q\rbkt{\bs{x},t}v_{j} + J_{j} } = \text{sources/sinks},
+\end{equation}
+or in vector form
+\begin{equation}\label{eq:differential_conservation_statement}
+    \partial_{t}q\rbkt{\bs{x},t} + \nabla\cdot\sbkt{q\rbkt{\bs{x},t}\bs{v} + \bs{J} } = \text{sources/sinks}.
+\end{equation}
+\subsection{Conservation of mass}
+Let $\rho=\rho\rbkt{\bs{x},t}$ be the density of the fluid, that is the mass per unit volume. The conservation statement for mass is simply 
+\begin{equation}
+    \dfrac{DM}{Dt} = \dfrac{D}{Dt}\int_{V\rbkt{t}}\rho\rbkt{\bs{x},t}\,d\bs{x} \stackrel{!}{=} 0,
+\end{equation}
+that leads to
+\begin{equation}
+    \dfrac{\partial}{\partial t}\rho\rbkt{\bs{x},t} + \dfrac{\partial}{\partial x_{j}}\sbkt{\rho\rbkt{\bs{x},t}u_{j} } = 0,
+\end{equation}
+or in vector form
+\begin{equation}\label{eq:differential_conservation_mass}
+    \partial_{t}\rho\rbkt{\bs{x},t} + \nabla\cdot\sbkt{\rho\rbkt{\bs{x},t}\bs{u} } = 0,
+\end{equation}
+where the mass flux is defined as $\rho\bs{u}$, and $\bs{u}$ is the velocity of the fluid itself. This can be proved easily using the Reynolds transport theorem, starting from the variation of the integral mass
+\begin{align}
+    \dfrac{D}{Dt}\int_{V\rbkt{t}}\rho\rbkt{\bs{x},t}\,d\bs{x} & =
+    \int_{V\rbkt{t}} \partial_{t}\rho\rbkt{\bs{x},t}\,d\bs{x} + \int_{V\rbkt{t}} \nabla\cdot\sbkt{\rho\rbkt{\bs{x},t}\bs{v}}\,d\bs{x}\stackrel{!}{=} 0
+\end{align}
+and assuming that the volume $V\rbkt{t}$ moves with the same velocity of the fluid, that means $\bs{v}=\bs{u}$, and successively the localization theorem.
+The conservation statement of the density can be used to give powerful meaning to the divergence of the velocity field, as indeed one can write it as
+\begin{equation}\label{eq:continuity_2}
+    \dfrac{D\rho}{Dt} = \partial_{t}\rho + \bs{u}\cdot\nabla\rho = -\rho\nabla\cdot\bs{u}.
+\end{equation}
+The density $\rho$ can be written in terms of specific volume $\vol$\footnote{The symbol $\vol$ has been chosen to not confuse the specific volume with the $y-$component of the velocity, $v$. Unfortunately, when fluid mechanics meets thermodynamics you need a whole set of symbols.} as $\rho=\nicefrac{1}{\vol}$, that means
+\begin{equation*}
+    d\rho=-\frac{1}{\vol^{2}}d{\vol} \qquad \Rightarrow \qquad \dfrac{d\rho}{\rho}=-\frac{1}{\vol}d\vol
+\end{equation*}
+and thus
+\begin{equation}
+    \nabla\cdot\bs{u} = \frac{d\vol}{\vol dt}
+\end{equation}
+relating the relative variation of specific volume in time with the divergence of the velocity field.
+\subsection{Conservation of chemical species}
+If the fluid contains chemical species of interest, such as salinity in the ocean (the term \emph{salinity} is used to indicate a mixture of different salts) or humidity in the atmosphere, the mass concentration $C$ has to be defined as the mass of chemical per unit of fluid mass. The amount of chemical per unit of fluid is hence $\rho\rbkt{\bs{x},t}c\rbkt{\bs{x},t}$. The total mass of chemical, that is 
+\begin{equation}
+    C =  \int_{V\rbkt{t}}\rho\rbkt{\bs{x},t}c\rbkt{\bs{x},t}\,d\bs{x}.
+\end{equation}
+is conserved, that means 
+\begin{equation}
+    \int_{V\rbkt{t}} \partial_{t}\rbkt{\rho c}\,d\bs{x} + \int_{V\rbkt{t}} \nabla\cdot\sbkt{\rho c}\,d\bs{x}
+    = - \int_{V\rbkt{t}} \nabla\cdot \rho\bs{J}_{c}\rbkt{\bs{x},t} \,d\bs{x} + \int_{V\rbkt{t}} \rbkt{\text{sources/sinks}}\,d\bs{x},
+\end{equation}
+the flux $\bs{J}_{c}\rbkt{\bs{x},t}$ generally follows the so called Fick's law, that can be expressed as
+\begin{equation}\label{eq:Fick}
+    \bs{J}_{c}\rbkt{\bs{x},t} = -\kappa_{c}\nabla c,
+\end{equation}
+where $\kappa_{c}$ is the so called diffusivity. The sign is given by the intuitive idea of chemicals diffusing from high concentration areas to low concentration areas. This concept is mathematically stated by second law of thermodynamics.
+
+\subsection{Conservation of heat}
+The advection-diffusion equation applies also to heat transfer, if it is supposed that the changes in temperature do not interact with the dynamic (this is referred as \emph{decoupled problem}). It is supposed that heat is simply transported by the fluid, and that it may diffuse through the medium. Under the hypothesis of mass conservation, considering internal energy as a concentration, the conservation statement of energy is
+\begin{equation}\label{eq:differential_conservation_energy}
+    \partial_{t}\rbkt{\rho e} + \nabla\cdot\sbkt{\rho e\bs{u} } = -\nabla\cdot\sbkt{\rho\bs{J}_{\theta}} + \text{sources/sinks}
+\end{equation}.
+The left hand side rearranged as
+\begin{align*}
+    e\sbkt{ \partial_{t}\rho + \nabla\cdot\rbkt{\rho\bs{u}}} + \rho\sbkt{\partial_{t}e + \nabla\cdot\rbkt{e\bs{u}}} &=-\nabla\cdot\sbkt{\rho\bs{J}_{\theta}} + \text{sources/sinks} \\
+    e\dfrac{D\rho}{D t} + \rho\rbkt{\partial_{t}e + \bs{u}\cdot\nabla e} + \rho e \nabla\cdot\bs{u}&=-\nabla\cdot\sbkt{\rho\bs{J}_{\theta}} + \text{sources/sinks} \\
+    e\rbkt{\dfrac{D\rho}{D t} + \rho\nabla\cdot\bs{u}}+ \rho\dfrac{D e}{D t} + &=-\nabla\cdot\sbkt{\rho\bs{J}_{\theta}} + \text{sources/sinks},
+\end{align*}
+and the first bracket in the left hand side vanishes thanks to continuity $\eqref{eq:continuity_2}$. Using $de=c_{p}d\theta$, with $\theta = T - T_{0}$, one has
+\begin{equation*}
+    \rho c_{p}\dfrac{D\theta}{D t} =-\nabla\cdot\sbkt{\rho\bs{J}_{\theta}} + \text{sources/sinks}.
+\end{equation*}
+The equivalent of Fick's law for heat transfer is Fourier's law, that states
+\begin{equation}\label{eq:Fourier_heat}
+    \rho\bs{J}_{\theta}\rbkt{\bs{x},t} = -\chi\nabla \theta, \qquad \sbkt{\chi}=\sbkt{\dfrac{W}{K\cdot m}}
+\end{equation}
+with $\chi$ thermal conductivity, that thus gives
+\begin{equation*}
+    \rho c_{p}\dfrac{D\theta}{D t} =-\nabla\cdot\sbkt{\chi\nabla \theta} + \text{sources/sinks}.
+\end{equation*}
+For constant $\rho c_{p}$ the heat equation is
+\begin{equation}\label{eq:Heat_equation}
+    \dfrac{D\theta}{Dt} = -\nabla\sbkt{\kappa_{\theta}\nabla\theta} + \dfrac{\text{sources/sinks}}{\rho c_{p}},\qquad \sbkt{\kappa_{\theta}}=\sbkt{\dfrac{m^{2}}{s}}
+\end{equation}
+with $\kappa_{\scaleto{H}{4pt}}$ thermal diffusivity.
+
+\subsection{Conservation of momentum}
+Each component of the momentum $\rho u_{i}$, per unit volume, can be written in terms of a conservation law. Applying Reynolds transport theorem to $\rho u_{i}$ two components are visible:
+\begin{align*}
+    \dfrac{D}{Dt}\int_{V\rbkt{t}} \rho u_{i}\,d\bs{x}&=
+    \int_{V\rbkt{t}} \dfrac{D}{Dt}\rbkt{\rho u_{i}}\,d\bs{x} + \int_{V\rbkt{t}} \rbkt{\rho u_{i}}\nabla\cdot\bs{u}\,d\bs{x}\\
+    &=\int_{V\rbkt{t}} \dfrac{\partial}{\partial t}\rbkt{\rho u_{i}}\,d\bs{x}  + \int_{V\rbkt{t}} \bs{u}\cdot\nabla\rbkt{\rho u_{i}}\,d\bs{x} + \int_{V\rbkt{t}} \rbkt{\rho u_{i}}\nabla\cdot\bs{u}\,d\bs{x}\\
+    &=\int_{V\rbkt{t}} \dfrac{\partial}{\partial t}\rbkt{\rho u_{i}} + \nabla\cdot\rbkt{\rho u_{i}\bs{u}}\,d\bs{x},
+\end{align*}
+where the first term is simply the variation in time of the momentum at a given point, the second term is the advective flux of momentum due to the motion itself. The conservation statement reads
+\begin{equation}
+    \dfrac{\partial}{\partial t}\rbkt{\rho u_{i}} + \nabla\cdot\rbkt{\rho u_{i}\bs{u}} = -\nabla\cdot\T_{ij} + \rho F_{i},
+\end{equation}
+where $\T_{ij}$ is the stress tensor, while $F_{i}$ are the external forces per unit volume, that are playing the role of a source or sink of motion, as they can push the motion forward or stop it. The stress tensor $\T_{ij}$ comes directly from Cauchy's tetrahedron theorem, and can be interpreted as the force acting on the outside of a small surface element with normal $\bs{n}$, while having a reaction force on the inside of the surface. Its divergence is just the balance of the forces acting on an elementary cube of fluid. Kinematically it can also be interpreted as a momentum flux similar to diffusion, that tends to homogenize the momentum. Usually, $\T_{ij}$ is decomposed as
+\begin{equation}
+    \T_{ij} = p_{d}\delta_{ij} + \tau_{ij},
+\end{equation}
+that are the hydrostatic and deviatoric part of the tensor. In fluid mechanics, $p_{d}$ is the dynamical pressure, while $\tau_{ij}$ is the shear stress, related to viscosity. The local conservation thus is written as 
+\begin{equation}\label{eq:conservation_momentum}
+    \dfrac{\partial}{\partial t}\rbkt{\rho u_{i}} + \nabla\cdot\rbkt{\rho u_{i}\bs{u}} = -\dfrac{\partial p_{d}}{\partial x_{i}} -\nabla\cdot\tau_{ij} + \rho F_{i}.
+\end{equation}
+\section{Navier-Stokes equations}
+The nature of the fluid considered affects the momentum equations through the stress tensor. The newtonian fluids are characterized by a special form of the momentum equation. The particular rheological relations to take into account are
+\begin{align*}
+    p_{d} &= p - {\color{red}\zeta}\dfrac{\partial u_{k}}{\partial x_{k}}\\
+    \tau_{ij} &= \mu \rbkt{\dfrac{\partial u_{i}}{\partial x_{j}} + \dfrac{\partial u_{j}}{\partial x_{i}}} - \dfrac{2}{3}\dfrac{\partial u_{k}}{\partial x_{k}}\delta_{ij}.
+\end{align*}
+The momentum conservation equation, with these particular choices then reads
+\begin{equation}\label{eq:conservation_momentum}
+    \rho\rbkt{
+    \dfrac{\partial u_{i}}{\partial t}+ u_{j}\dfrac{\partial u_{i}}{\partial x_{j}}
+    } = -\dfrac{\partial p_{d}}{\partial x_{i}} + \dfrac{\partial^{2}u_{i}}{\partial x_{j}\partial x_{j}}
+    +\rbkt{\dfrac{\nu}{3}+{\color{red}\zeta}}\dfrac{\partial}{\partial x_{i}}\dfrac{\partial u_{k}}{\partial x_{k}} + \rho F_{i}.
+\end{equation}
+Coupling this equation with the mass conservation statement 
+\begin{equation}
+    \dfrac{\partial}{\partial t}\rho\rbkt{\bs{x},t} + \dfrac{\partial}{\partial x_{j}}\sbkt{\rho\rbkt{\bs{x},t}u_{j} } = 0,
+\end{equation}
+and an equation of state (in the most general case), the \emph{Navier-Stokes equations} are found to be
+\begin{align}
+    & \rho\rbkt{\partial_{t}\bs{u} + \bs{u}\cdot\nabla\bs{u}} = -\nabla p + \nu\Delta\bs{u} + \rbkt{\dfrac{\nu}{3}+{\color{red}\zeta}}\nabla\rbkt{\nabla\cdot\bs{u}} + \rho\bs{F} \\
+    & \partial_{t}\rho\rbkt{\bs{x},t} + \nabla\cdot\sbkt{\rho\rbkt{\bs{x},t}\bs{u} } = 0\\
+    & \rho = \rho\rbkt{p,S}.
+\end{align}
+This set of equations describes the motion of a newtonian fluid in the purely mechanical problem. If the dependence of $\rho$ from $S$ (chemical specie) is strong, an additional transport equation for $S$ has to be prescribed, as for any other variable for which $\rho$ depends. This set of equations poses several challenges, and is common practice to adopt several simplifications.
+
+\subsection{Uniform density: the Incompressible Navier-Stokes equations}
+The simplest form that can be attained for the Navier-Stokes system is for fluids with no density variation, that means the state equation simply be $\rho=\rho_{0}$, leading to a simplified continuity equation as
+\begin{equation}
+    \rho\nabla\cdot\bs{u}=0 \Rightarrow \nabla\cdot\bs{u}=0,
+\end{equation}
+that thus neglects all the compressibility effects in the momentum equation.The \emph{incompressible Navier-Stokes equations} are
+\begin{align}
+    \partial_{t}\bs{u} + \bs{u}\cdot\nabla\bs{u} &= -\nabla p + \nu\Delta\bs{u} + \rho\bs{F} \\
+    \nabla\cdot\bs{u} &= 0.
+\end{align}
+Within this framework, $p$ is just a constraint maintaining incompressibility, and is determined from $\bs{u}$ as a solution of the Poisson equation
+\begin{equation}
+    \Delta p=-\rho_{0}\nabla\cdot\rbkt{\bs{u}\cdot\nabla\bs{u}}
+\end{equation}
+obtained taking the divergence of the Navier-Stokes equations.
+
+\subsection{Small density variations}
+Small density variations are often induced by temperature or chemicals (as salinity), but these effects are small. To deal with the results of these changes without using the compressible Navier-Stokes equations, the so called \emph{Boussinesq approximation} is employed. Assuming that the field involves just small changes around a reference $\rho_{0}$, the density is written as
+\begin{equation*}
+    \rho = \rho_{0}\rbkt{1 + \epsilon\rbkt{\bs{x},t}}.
+\end{equation*}
+Roughly speaking, the Boussinesq approximation is such that the variation of $\epsilon\rbkt{\bs{x},t}$ are small enough to be neglected, but not if they involve gravity in their action. In the continuity equation there is no gravitational influence, so that 
+\begin{equation*}
+    \partial_{t}\rho\rbkt{\bs{x},t} + \nabla\cdot\sbkt{\rho\rbkt{\bs{x},t}\bs{u} } = 0, \quad \rho\sim\rho_{0}  \quad\Rightarrow \quad \nabla\cdot\bs{u}=0,
+\end{equation*}
+and thus from this point of view the fluid is to be considered incompressible. Pressure may be seen as depending from the motion and from a hydrostatic part, that is 
+\begin{equation}
+    p = \Tilde{p} + \rho_{0}z\rbkt{-g}=\Tilde{p}-g\rho_{0}z.
+\end{equation}
+The hydrostatic component $-\rho_{0}gz$ is due to the background density, here supposed constant. The pressure term in the Navier-Stokes equations thus becomes
+\begin{equation*}
+    \dfrac{\nabla p}{\rho} = \dfrac{\nabla \Tilde{p}}{\rho} - \dfrac{\rho_{0}}{\rho}g\delta_{i3}.
+\end{equation*}
+In this term the Boussinesq approximation rises: the first term does not involve gravity, and thus $\rho\equiv\rho_{0}$ is taken, while the second is treated as $\rho = \rho_{0}\rbkt{1 + \epsilon\rbkt{\bs{x},t}}$, so that
+\begin{equation*}
+    \dfrac{\nabla p}{\rho} = \dfrac{\nabla \Tilde{p}}{\rho_{0}} - \dfrac{\rho_{0}}{\rho_{0}\rbkt{1 + \epsilon}}g\delta_{i3}= \dfrac{\nabla \Tilde{p}}{\rho_{0}} - \rbkt{1 + \epsilon}g\delta_{i3}=\dfrac{\nabla \Tilde{p}}{\rho_{0}} - g\delta_{i3} - \epsilon g\delta_{i3}.
+\end{equation*}
+The term $-g\epsilon$ is defined as \emph{buoyancy} and depends on the density fluctuations, as indeed
+\begin{equation*}
+    \bs{b} = -g\epsilon\rbkt{\bs{x},t} = -g\dfrac{\Tilde{\rho}\rbkt{\bs{x},t}}{\rho_{0}},
+\end{equation*}
+and it represents the upward (or downward) force associated with the density anomaly $\Tilde{\rho}$. Supposing to have gravitational external forces, such that $\bs{F}=-g\bs{e}_{z}$, the Navier-Stokes equations are transformed as
+\begin{align}
+    \partial_{t}\bs{u} + \bs{u}\cdot\nabla\bs{u} &= -\dfrac{\nabla \Tilde{p}}{\rho_{0}} + \bs{b} + \nu\Delta\bs{u}\\
+    \nabla\cdot\bs{u} &= 0.
+\end{align}
+Again, $\Tilde{p}$ can be seen as the constraint needed to ensure $\nabla\cdot\bs{u}=0$, and it is found solving 
+\begin{equation}
+    \Delta\Tilde{p}=-\rho_{0}\nabla\cdot\rbkt{\bs{u}\cdot\nabla\bs{u}}-\rho_{0}\nabla\cdot\bs{b}.
+\end{equation}
+Using this formulation requires an additional equation to close the problem, as the buoyancy is under-determined. Buoyancy is generally depending on temperature, pressure and chemicals. Supposing that the variation in these parameters are small so they can be linearized, a simple advection-diffusion equation can be used for the buoyancy, as
+\begin{equation}
+    \partial_{t}\bs{b} + \bs{y}\cdot\nabla\bs{b} = \kappa_{\bs{b}}\Delta\bs{b} + \text{sources/sinks},
+\end{equation}
+that can be for instance used in case of temperature-induces density anomalies if they are small enough to be modelled by
+\begin{equation*}
+    \bs{b} = \alpha g\rbkt{T - T_{0}}\bs{e}_{3}.
+\end{equation*}
+
